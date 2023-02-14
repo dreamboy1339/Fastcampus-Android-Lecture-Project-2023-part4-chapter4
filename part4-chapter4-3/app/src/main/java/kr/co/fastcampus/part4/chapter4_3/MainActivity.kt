@@ -39,6 +39,7 @@ fun ConstraintLayoutEx() {
         // 단계 2: createRefs()를 이용해서 아래 박스들의 레퍼런스를 가져옵시다.
         // createRefs는 여러개의 레퍼런스를 리턴하니 destruction으로 분해합시다.
         // red, magenta, green, yellow 박스가 있습니다.
+        val (redBox, magentaBox, greenBox, yellowBox) = createRefs()
 
         Box(
             // 단계 3: constraintsAs 모디파이어를 추가하고 레퍼런스를 전달합시다.
@@ -51,12 +52,20 @@ fun ConstraintLayoutEx() {
             modifier = Modifier
                 .size(40.dp)
                 .background(Color.Red)
+                .constrainAs(redBox) {
+                    bottom.linkTo(parent.bottom, 10.dp)
+                    end.linkTo(parent.end, 30.dp)
+                }
         )
         Box(
             // 단계 5: 마젠타 박스를 parent의 start와 end에 연결합시다.
             modifier = Modifier
                 .size(40.dp)
                 .background(Color.Magenta)
+                .constrainAs(magentaBox) {
+                    start.linkTo(parent.start, 10.dp)
+                    end.linkTo(parent.end, 30.dp)
+                }
         )
         Box(
             // 단계 6: 그린 박스를 linkTo를 이용해서 정 가운데로 연결해봅시다.
@@ -65,6 +74,9 @@ fun ConstraintLayoutEx() {
             modifier = Modifier
                 .size(40.dp)
                 .background(Color.Green)
+                .constrainAs(greenBox) {
+                    centerTo(parent)
+                }
         )
 
         Box(
@@ -73,6 +85,10 @@ fun ConstraintLayoutEx() {
             modifier = Modifier
                 .size(40.dp)
                 .background(Color.Yellow)
+                .constrainAs(yellowBox) {
+                    start.linkTo(greenBox.end)
+                    top.linkTo(greenBox.bottom)
+                }
         )
     }
 }
