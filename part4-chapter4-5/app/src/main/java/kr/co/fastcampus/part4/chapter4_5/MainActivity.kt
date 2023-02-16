@@ -46,6 +46,9 @@ fun ConstraintLayoutEx() {
                 .size(40.dp)
                 .background(Color.Red)
                 .constrainAs(redBox) {
+//                    top.linkTo(parent.top, margin = 10.dp)
+                    start.linkTo(parent.start, margin = 10.dp)
+
                 }
         )
 
@@ -54,6 +57,8 @@ fun ConstraintLayoutEx() {
                 .size(40.dp)
                 .background(Color.Yellow)
                 .constrainAs(yellowBox) {
+//                    top.linkTo(parent.top, margin = 20.dp)
+                    start.linkTo(parent.start, margin = 40.dp)
                 }
         )
 
@@ -61,11 +66,18 @@ fun ConstraintLayoutEx() {
             modifier = Modifier
                 .size(40.dp)
                 .background(Color.Magenta)
-                .constrainAs(magentaBox) {               }
+                .constrainAs(magentaBox) {
+//                    top.linkTo(parent.top, margin = 15.dp)
+                    start.linkTo(parent.start, margin = 60.dp)
+                }
         )
 
         // 단계 1: `createVerticalChain`, `createHorizontalChain`를
         // 이용해서 세 박스의 레퍼런스를 연결해봅시다.
+//        createHorizontalChain(
+//            redBox, yellowBox, magentaBox,
+//            chainStyle = ChainStyle.SpreadInside
+//        )
 
         // 단계 2: `createHorizontalChain`를 사용하고 `chainStyle`
         // 키워드 파라미터를 추가합시다.
@@ -77,10 +89,29 @@ fun ConstraintLayoutEx() {
 
         // 단계 4: `createBottomBarrier`로 배리어를 만듭시다.
         // 이는 모든 박스들의 하단을 포함하는 배리어입니다.
+//        val boxBarrier = createBottomBarrier(redBox, yellowBox, magentaBox)
 
         // 단계 5: `Text` 하나 만들고 top을 박스 베리어로 지정합니다.
+//        Text(
+//            text = "나랏말싸미 듕귁에 달아 문자와로 서로 사맛디 아니할쌔 어린 백성이 니르고저 핣배이셔도",
+//            modifier = Modifier.constrainAs(text) {
+//                top.linkTo(boxBarrier)
+//            }
+//        )
 
         // 단계 6: 체이닝 방향이나 베리어 방향을 바꾸어 보며 다양하게 테스트해봅시다.
+        createVerticalChain(
+            redBox, yellowBox, magentaBox,
+            chainStyle = ChainStyle.SpreadInside
+        )
+
+        val boxBarrier = createEndBarrier(redBox, yellowBox, magentaBox)
+        Text(
+            text = "나랏말싸미 듕귁에 달아 문자와로 서로 사맛디 아니할쌔 어린 백성이 니르고저 핣배이셔도",
+            modifier = Modifier.constrainAs(text) {
+                start.linkTo(boxBarrier)
+            }.width(100.dp)
+        )
     }
 }
 
