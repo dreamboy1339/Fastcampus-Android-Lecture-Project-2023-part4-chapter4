@@ -39,7 +39,10 @@ fun CanvasEx() {
         // 단계 1: `drawLine`을 사용해봅시다. 파라미터로 색상, 시작(`Offset`)
         // 끝(`Offset` 타입)을 받습니다.
 
+        drawLine(Color.Blue, Offset(30f, 30f), Offset(50f, 50f))
+
         // 단계 2: `drawCircle`을 사용해보세요. 색상, 반지름, 중앙(`Offset`)
+        drawCircle(Color.Magenta, 10f, Offset(10f, 30f))
 
         // 단계 3: 아래의 규칙으로 그려진 아이콘 `Icons.Filled.Send`를
         // `drawLine`으로 변경해봅시다.
@@ -55,6 +58,13 @@ fun CanvasEx() {
         //        lineToRelative(15.0f, 2.0f)
         //        lineToRelative(-15.0f, 2.0f)
         //        close()
+
+        drawLine(Color.Red, Offset(2.01f, 21.0f), Offset(23.0f, 12.0f))
+        drawLine(Color.Red, Offset(23.0f, 12.0f), Offset(2.01f, 3.0f))
+        drawLine(Color.Red, Offset(2.01f, 3.0f), Offset(2.0f, 10.0f))
+        drawLine(Color.Red, Offset(2.0f, 10.0f), Offset(17.0f, 12.0f))
+        drawLine(Color.Red, Offset(17.0f, 12.0f), Offset(2.0f, 14.0f))
+        drawLine(Color.Red, Offset(2.0f, 14.0f), Offset(2.01f, 21.0f))
     }
 }
 
