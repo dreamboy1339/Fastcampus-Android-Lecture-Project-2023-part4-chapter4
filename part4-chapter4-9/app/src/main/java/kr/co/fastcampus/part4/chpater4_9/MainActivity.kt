@@ -52,6 +52,7 @@ fun CustomDialog() {
     if (openDialog) {
         Dialog(onDismissRequest = {
             // 단계 1: 디스미스 처리를 합니다.
+            openDialog = false
         }) {
             Surface {
                 // 단계 2: 컬럼을 만들고 설명을 적어봅시다.
@@ -60,6 +61,29 @@ fun CustomDialog() {
                 // 버튼은 +1, -1, 취소로 구성하겠습니다.
 
                 // +1은 counter를 증가시키고 -1은 감소, 취소는 다이얼로그를 닫습니다.
+                Column(modifier = Modifier.padding(8.dp)) {
+                    Text("카운터를 조작해봅시다.")
+                    Row(modifier = Modifier.align(Alignment.End)) {
+                        Button(onClick = {
+                            counter--
+                            openDialog = false
+                        }) {
+                            Text("-1")
+                        }
+                        Button(onClick = {
+                            counter++
+                            openDialog = false
+                        }) {
+                            Text("+1")
+                        }
+                        Button(onClick = {
+                            openDialog = false
+                        }) {
+                            Text("취소")
+                        }
+
+                    }
+                }
             }
         }
     }
