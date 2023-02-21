@@ -46,6 +46,19 @@ fun DropDownMenuEx() {
 
     // 단계 2: 두개의 `DropdownMenuItem`을 등록합시다. `onClick`을 구현하고
     // 내용물은 `Text`로 채워봅시다.
+
+    DropdownMenu(expanded = expandDropDownMenu, onDismissRequest = { expandDropDownMenu = false }) {
+        DropdownMenuItem(onClick = {
+            counter++
+        }) {
+            Text("+1")
+        }
+        DropdownMenuItem(onClick = {
+            counter--
+        }) {
+            Text("-1")
+        }
+    }
 }
 
 @Preview(showBackground = true)
