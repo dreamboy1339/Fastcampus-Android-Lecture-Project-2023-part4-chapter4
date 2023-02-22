@@ -33,8 +33,54 @@ class MainActivity : ComponentActivity() {
 fun BottomAppBarEx() {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
+    var counter by remember {
+        mutableStateOf(0)
+    }
 
     // 단계 1: `Scaffold`에 `scaffoldState`를 설정합니다.
+    Scaffold(
+        scaffoldState = scaffoldState,
+        bottomBar = {
+            BottomAppBar() {
+                Text("헬로")
+                Button(
+                    onClick = {
+                        coroutineScope.launch {
+                            scaffoldState.snackbarHostState.showSnackbar("안녕하세요")
+                        }
+                    }) {
+                    Text("인사하기")
+                }
+                Button(
+                    onClick = {
+                        counter++
+                        coroutineScope.launch {
+                            scaffoldState.snackbarHostState.showSnackbar("${counter}입니다.")
+                        }
+                    }
+                ) {
+                    Text("더하기")
+                }
+                Button(
+                    onClick = {
+                        counter--
+                        coroutineScope.launch {
+                            scaffoldState.snackbarHostState.showSnackbar("${counter}입니다.")
+                        }
+                    }
+                ) {
+                    Text("빼기")
+                }
+            }
+        }
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Text(
+                text = "카운터는 ${counter}회입니다.",
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+    }
 
     // 단계 2: `bottomBar` 파라미터에 `BottomAppBar`를 넣읍시다.
     // 내용은 텍스트와 버튼을 넣어 봅시다. 버튼에는 `snackBar`를
