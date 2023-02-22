@@ -44,28 +44,77 @@ fun PyeongToSquareMeter() {
     // 단계 1: remember를 이용해 상태를 만들고 평 값을 입력하면
     // 제곱미터가 출력되도록 화면을 구성하시오.
     // 평을 제곱미터로 바꾸기 위해서는 3.306을 곱하면 됩니다.
-    Column(modifier = Modifier.padding(16.dp)) {
-        OutlinedTextField(
-            value = "",
-            onValueChange = {
-            }, label = {
-                Text("평")
-            }
-        )
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = {
-                Text("제곱미터")
-            }
-        )
-    }
+//    Column(modifier = Modifier.padding(16.dp)) {
+//        OutlinedTextField(
+//            value = pyeong,
+//            onValueChange = {
+//                if (it.isBlank()) {
+//                    pyeong = ""
+//                    squaremeter = ""
+//                    return@OutlinedTextField
+//                }
+//                val numericValue = it.toFloatOrNull() ?: return@OutlinedTextField
+//                pyeong = it
+//                val sqm = numericValue * 3.306
+//                squaremeter = sqm.toString()
+//            }, label = {
+//                Text("평")
+//            }
+//        )
+//        OutlinedTextField(
+//            value = squaremeter,
+//            onValueChange = {},
+//            label = {
+//                Text("제곱미터")
+//            }
+//        )
+//    }
 
     // 단계 2: `Composable` 함수를 만들고 `Column`의 항목들을 옮기세요.
     // 단 상태는 옮기지 말아야 합니다.
 
     // 파라미터는 아래와 같이 구성합니다.
     // `pyeong: String, squareMeter: String, onPyeongChange: (String) -> Unit`
+
+    PyeongToSquareMeterStateless(
+        pyeong = pyeong,
+        squaremeter = squaremeter,
+        onPyeongChange = {
+            if (it.isBlank()) {
+                pyeong = ""
+                squaremeter = ""
+                return@PyeongToSquareMeterStateless
+            }
+            val numericValue = it.toFloatOrNull() ?: return@PyeongToSquareMeterStateless
+            pyeong = it
+            val sqm = numericValue * 3.306
+            squaremeter = sqm.toString()
+        }
+    )
+}
+
+@Composable
+fun PyeongToSquareMeterStateless(
+    pyeong: String,
+    squaremeter: String,
+    onPyeongChange: (String) -> Unit
+) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        OutlinedTextField(
+            value = pyeong,
+            onValueChange = onPyeongChange,
+            label = {
+                Text("평")
+            }
+        )
+        OutlinedTextField(
+            value = squaremeter,
+            onValueChange = {},
+            label = {
+                Text("제곱미터")
+            }
+        )
+    }
 }
 
 @Preview(showBackground = true)
