@@ -40,24 +40,38 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AnimationEx() {
     var helloWorldVisible by remember { mutableStateOf(true) }
     var isRed by remember { mutableStateOf(false) }
 
-    val backgroundColor = Color.LightGray
+//    val backgroundColor = Color.LightGray
     // 단계 4: `backgroundColor`를 `animateColorAsState`로
     // 변경하세요.
     // `targetValue`는 `isRed`에 따라 `Color`를 설정합니다.
 
+    val backgroundColor by animateColorAsState(
+        targetValue = if (isRed) Color.Red else Color.White
+    )
+
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
             .background(backgroundColor)
     ) {
-        Text(text = "Hello World!")
+//        Text(text = "Hello World!")
 
         // 단계 1: `Text`를 `AnimatedVisibility`로 감싸고 `visible`을
         // `helloWorldVisible`로 지정해봅시다.
+
+        AnimatedVisibility(
+            visible = helloWorldVisible,
+            enter = scaleIn() + slideInHorizontally(),
+            exit = slideOutVertically() + fadeOut()
+        ) {
+            Text(text = "Hello World!")
+        }
 
         // 단계 2: `enter` 파라미터를 바꾸어봅시다.
         // 예:
