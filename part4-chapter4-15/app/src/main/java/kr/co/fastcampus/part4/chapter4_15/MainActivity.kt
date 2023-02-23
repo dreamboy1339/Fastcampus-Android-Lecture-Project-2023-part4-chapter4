@@ -45,43 +45,108 @@ fun Animation2Ex() {
 
     // 단계 1: `updateTransition` 수행하고 `targetState`를 `isDarkMode`로
     // 설정합니다. `transition`으로 리턴을 받습니다.
+    val transition = updateTransition(targetState = isDarkMode, label = "다크모드")
 
     // 단계 2: `transition`에 대해 `animateColor`를 호출해 `backgroundColor`를 받습니다.
     // 배경색상을 만듭시다. false일 때 하얀 배경, true일 때 검은 배경.
+    val backgroundColor by transition.animateColor(label = "다크모드 배경색상") { state ->
+        when (state) {
+            false -> Color.White
+            true -> Color.Black
+        }
+    }
 
     // 단계 3: 글자 색상을 만듭시다.
+    val color by transition.animateColor(label = "글자 색상") { state ->
+        when (state) {
+            false -> Color.Black
+            true -> Color.White
+        }
+    }
 
     // 단계 4: `animateFloat`를 호출해서 알파 값을 만듭시다.
+    val alpha by transition.animateFloat(label = "알파") { state ->
+        when (state) {
+            false -> 0.7f
+            true -> 1.0f
+        }
+    }
 
     // 단계 5: 컬럼에 배경과 알파를 적용합시다.
-    Column {
+    Column(
+        modifier = Modifier
+            .background(backgroundColor)
+            .alpha(alpha)
+    ) {
         // 단계 6: 라디오 버튼에 글자 색을 적용합시다.
-        RadioButtonWithText(text = "일반 모드", selected = !isDarkMode) {
+        RadioButtonWithText(text = "일반 모드", color = color, selected = !isDarkMode) {
             isDarkMode = false
         }
-        RadioButtonWithText(text = "다크 모드", selected = isDarkMode) {
+        RadioButtonWithText(text = "다크 모드", color = color, selected = isDarkMode) {
             isDarkMode = true
         }
 
         // 단계 7: Crossfade를 이용해 `isDarkMode`가 참일 경우
         // `Row`로 항목을 표현하고 거짓일 경우 `Column`으로 표현해봅시다.
-        Row {
-            Box(modifier = Modifier
-                .background(Color.Red)
-                .size(20.dp)) {
-                Text("1")
-            }
-            Box(modifier = Modifier
-                .background(Color.Magenta)
-                .size(20.dp)) {
-                Text("2")
-            }
-            Box(modifier = Modifier
-                .background(Color.Blue)
-                .size(20.dp)) {
-                Text("3")
+        Crossfade(targetState = isDarkMode) {
+            when (it) {
+                true -> {
+                    Row {
+                        Box(modifier = Modifier
+                            .background(Color.Red)
+                            .size(20.dp)) {
+                            Text("1")
+                        }
+                        Box(modifier = Modifier
+                            .background(Color.Magenta)
+                            .size(20.dp)) {
+                            Text("2")
+                        }
+                        Box(modifier = Modifier
+                            .background(Color.Blue)
+                            .size(20.dp)) {
+                            Text("3")
+                        }
+                    }
+                }
+                false -> {
+                    Column {
+                        Box(modifier = Modifier
+                            .background(Color.Red)
+                            .size(20.dp)) {
+                            Text("A")
+                        }
+                        Box(modifier = Modifier
+                            .background(Color.Magenta)
+                            .size(20.dp)) {
+                            Text("B")
+                        }
+                        Box(modifier = Modifier
+                            .background(Color.Blue)
+                            .size(20.dp)) {
+                            Text("C")
+                        }
+                    }
+                }
             }
         }
+//        Row {
+//            Box(modifier = Modifier
+//                .background(Color.Red)
+//                .size(20.dp)) {
+//                Text("1")
+//            }
+//            Box(modifier = Modifier
+//                .background(Color.Magenta)
+//                .size(20.dp)) {
+//                Text("2")
+//            }
+//            Box(modifier = Modifier
+//                .background(Color.Blue)
+//                .size(20.dp)) {
+//                Text("3")
+//            }
+//        }
     }
 }
 
