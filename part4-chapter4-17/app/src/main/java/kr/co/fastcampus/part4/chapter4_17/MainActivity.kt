@@ -44,6 +44,10 @@ fun EffectEx(lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current) {
     // `LaunchedEffect`는 `CouroutineScope`를 만들기 때문에 스코프를 별도로
     // 만들 필요는 없습니다.
 
+    LaunchedEffect(scaffoldState.snackbarHostState) {
+        scaffoldState.snackbarHostState.showSnackbar("Hello World!")
+    }
+
     // 단계 2: `DisposableEffect`를 호출하고 파리미터로 `lifecycleOwner`를
     // 전달합니다.
 
@@ -52,6 +56,24 @@ fun EffectEx(lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current) {
 
     // 블록 내에서 `lifecycleOwner.lifecycle.addObserver`로 옵저버를 추가하고
     // onDispose에서 옵저버를 제거합니다.
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_START -> {
+                    Log.d("이펙트", "헬로 컴포즈!")
+                }
+                Lifecycle.Event.ON_STOP -> {
+                    Log.d("이펙트", "굿바이 컴포즈!")
+                }
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     Scaffold(
         scaffoldState = scaffoldState
