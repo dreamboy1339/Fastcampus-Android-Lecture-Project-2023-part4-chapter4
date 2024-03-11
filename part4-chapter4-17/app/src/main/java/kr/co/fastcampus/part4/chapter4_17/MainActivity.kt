@@ -43,9 +43,32 @@ fun EffectEx(lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current) {
     // "헬로 컴포즈"라고 출력합시다.
     // `LaunchedEffect`는 `CouroutineScope`를 만들기 때문에 스코프를 별도로
     // 만들 필요는 없습니다.
+    LaunchedEffect(scaffoldState.snackbarHostState) {
+        scaffoldState.snackbarHostState.showSnackbar("Hello, compose!!")
+    }
 
     // 단계 2: `DisposableEffect`를 호출하고 파리미터로 `lifecycleOwner`를
     // 전달합니다.
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event: Lifecycle.Event ->
+            when (event) {
+                Lifecycle.Event.ON_START -> {
+                    Log.d("Effect", "EffectEx: ON_START")
+                }
+                Lifecycle.Event.ON_STOP -> {
+                    Log.d("Effect", "EffectEx: ON_STOP")
+                }
+                else -> {}
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     // `LifecycleEventObserver`를 상속받고 두 상태에 대해 로그를 남깁니다.
     // `Lifecycle.Event.ON_START`, `Lifecycle.Event.ON_STOP`
